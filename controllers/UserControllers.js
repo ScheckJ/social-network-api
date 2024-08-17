@@ -47,5 +47,32 @@ module.exports = {
     } catch (err) {
         res.status(500).json(err);
       }
+  },
+  addFriend(req, res) {
+   try { 
+    const user =User.findOneAndUpdate(
+      { _id: req.params.userId },
+      { $addToSet: { friends: req.params.friendId } },
+      { new: true }
+      .populate('friends')
+    )
+         if (!user)
+         res.status(404).json({ message: 'No user found with that ID' })
+           res.json(user)
+      } catch (err) { res.status(500).json(err)
+      }
+  },
+  removeFriend(req, res) {
+   try { 
+    const user = User.findOneAndUpdate(
+      { _id: req.params.userId },
+      { $pull: { friends: req.params.friendId } },
+      { new: true }
+    ).populate('friends');
+ 
+         if (!user)
+           res.status(404).json({ message: 'No user found with that ID' })
+          res.json(user)
+      } catch(err) {  res.status(500).json(err)}
   }
 }

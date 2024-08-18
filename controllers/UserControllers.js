@@ -13,7 +13,7 @@ module.exports = {
 
   async singleUser(req, res) {
     try {
-      const user = await user.findOne({ _id: req.params.userId });
+      const user = await User.findOne({ _id: req.params.userId });
 
       res.json(user);
     } catch (err) {
@@ -23,16 +23,17 @@ module.exports = {
   },
   async createUser(req, res) {
     try {
-      const user = await user.create(req.body);
+      const user = await User.create(req.body);
       res.json(user);
     } catch (err) {
+      console.log(err)
       res.status(500).json(err);
     }
   },
 
   async updateUser(req,res) {
     try {
-        const user = findOneAndUpdate(
+        const user = await User.findOneAndUpdate(
             {_id: req.params.userId},
             {$set: req.body},
             {runValidators: true, new: true});
@@ -47,9 +48,9 @@ module.exports = {
         res.status(500).json(err);
       }
   },
-  addFriend(req, res) {
+   async addFriend(req, res) {
    try { 
-    const user =User.findOneAndUpdate(
+    const user = User.findOneAndUpdate(
       { _id: req.params.userId },
       { $addToSet: { friends: req.params.friendId } },
       { new: true }
@@ -61,7 +62,7 @@ module.exports = {
       } catch (err) { res.status(500).json(err)
       }
   },
-  removeFriend(req, res) {
+  async removeFriend(req, res) {
    try { 
     const user = User.findOneAndUpdate(
       { _id: req.params.userId },

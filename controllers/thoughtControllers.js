@@ -1,5 +1,5 @@
 const {Thought} = require('../models');
-const { updateUser } = require('./UserControllers');
+const { updateUser } = require('./userControllers');
 
 module.exports = {
     async getThoughts (req, res) {

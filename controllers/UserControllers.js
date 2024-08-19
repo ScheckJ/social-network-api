@@ -1,6 +1,7 @@
 const { User } = require("../models");
 
 module.exports = {
+  // get all users
   async getUsers(req, res) {
     try {
       const users = await User.find();
@@ -10,7 +11,7 @@ module.exports = {
       return res.status(500).json(err);
     }
   },
-
+// get one user
   async singleUser(req, res) {
     try {
       const user = await User.findOne({ _id: req.params.userId });
@@ -21,6 +22,8 @@ module.exports = {
       return res.status(500).json(err);
     }
   },
+
+  // post user
   async createUser(req, res) {
     try {
       const user = await User.create(req.body);
@@ -30,7 +33,7 @@ module.exports = {
       res.status(500).json(err);
     }
   },
-
+// put/update  user
   async updateUser(req,res) {
     try {
         const user = await User.findOneAndUpdate(
@@ -48,6 +51,7 @@ module.exports = {
         res.status(500).json(err);
       }
   },
+  //post new friend
    async addFriend(req, res) {
    try { 
     const user = User.findOneAndUpdate(
@@ -62,6 +66,8 @@ module.exports = {
       } catch (err) { res.status(500).json(err)
       }
   },
+
+  //remove/delete friend
   async removeFriend(req, res) {
    try { 
     const user = User.findOneAndUpdate(
